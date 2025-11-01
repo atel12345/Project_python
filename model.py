@@ -128,35 +128,9 @@ conn.execute('''
     foreign key (id_membre) references membre(id_membre),
     foreign key (id_activite) references activite(id_activite))
 ''')
+def is_table_empty(table_name):
+    """Return True if the given table has no rows, False otherwise"""
+    cursor = conn.execute(f"SELECT COUNT(*) FROM {table_name}")
+    count = cursor.fetchone()[0]
+    return count == 0
 
-
-#adding member infos to table membre
-# print("\nSaisis info membre :")
-# id_m = int(input("id_membre: "))
-# nom = input("nom: ")
-# prenom = input("prenom: ")
-# role = input("role: ")
-# payee_input = input("payee (oui/non): ").strip().lower()
-# payee = True if payee_input in ("oui", "yes", "1", "true") else False
-# date_inscription = input("date_inscription (JJ/MM/AAAA): ")
-# telephone = input("telephone: ")
-# mem = Membre(id_m, nom, prenom, role, payee, date_inscription, telephone)
-# mem.ajouter_membre(mem)
-
-#adding activity infos to table activite
-# print("\nSaisis info activite :")
-# id_a = int(input("id_activite: "))
-# n = input("nom: ")
-# type = input("type: ")
-# date=input("date: ")
-# duree=int(input("duree: "))
-# act=Activite(id_a,n,type,date,duree)
-# act.ajouter_activite(act)
-
-#adding payment infos to table paiement
-# print("\nSaisis info paiement :")
-# id_p = int(input("id_paiement: "))
-# montant = float(input("montant: "))
-# date_paiement = input("date_paiement (JJ/MM/AAAA): ")
-# pai=Paiement(id_p,id_m,montant,date_paiement)#id_m : id_membre as foreign key referencing id_membre in table membre
-# pai.ajouter_paiement(pai)
