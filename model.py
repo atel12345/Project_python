@@ -52,26 +52,11 @@ class Activite:
 
 
 
-class Paiement:
-    def __init__(self, id_paiement, id_membre, montant, date_paiement):
-        self.id_paiement = id_paiement
+class Participation:
+    def __init__(self, id_activite, id_membre, date_participation):
+        self.id_activite = id_activite
         self.id_membre = id_membre
-        self.montant = montant
-        self.date_paiement = date_paiement
-
-    def ajouter_paiement(self, paiement):
-        conn.execute(
-            'INSERT INTO paiement (id_paiement, id_membre, montant, date_paiement) VALUES (?, ?, ?, ?)',
-            (paiement.id_paiement,paiement.id_membre,paiement.montant, paiement.date_paiement)
-        )
-        conn.commit()
-
-    def modifier_paiement(self,paiement):
-        conn.execute(
-            'UPDATE paiement SET montant = ?, date_paiement = ? WHERE id_paiement = ?',
-            (paiement.montant, paiement.date_paiement, paiement.id_paiement)
-        )
-        conn.commit()
+        self.date_participation = date_participation
 
 #connecting to DB and enabling foreign keys
 conn=sqlite3.connect('data.db')
@@ -84,9 +69,13 @@ conn.execute(
 conn.execute(
     'CREATE TABLE IF NOT EXISTS activite(id_activite integer primary key,nom text,type text,date date,duree integer)'
 )
-conn.execute(
-    'CREATE TABLE IF NOT EXISTS paiement(id_paiement integer primary key, id_membre integer, montant integer, date_paiement date, foreign key (id_membre) references membre(id_membre))'
-)
+conn.execute('''
+    CREATE TABLE IF NOT EXISTS participation(
+    id_activite integer , id_membre integer,date_participation date, 
+    primary key(id_membre,id_activite), 
+    foreign key (id_membre) references membre(id_membre),
+    foreign key (id_activite) references activite(id_activite))
+''')
 
 #adding member infos to table membre
 # print("\nSaisis info membre :")
