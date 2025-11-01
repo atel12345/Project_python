@@ -27,6 +27,12 @@ class ProjectClubApp:
         self.root.title(WINDOW_TITLE)
         self.root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
         
+        # Set window icon
+        try:
+            self.root.iconbitmap('icon.ico')
+        except Exception as e:
+            print(f"Could not load icon: {e}")
+        
         # Variables
         self.current_view = StringVar(value="membre")
         self.sort_var = StringVar(value="ID")

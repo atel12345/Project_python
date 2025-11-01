@@ -64,11 +64,12 @@ def show_membre_details(tree_widget):
     Label(frame, text=f"Prénom: {row[2]}", font=('Arial', 10)).grid(row=2, column=0, sticky=W, pady=3)
     Label(frame, text=f"Rôle: {row[3]}", font=('Arial', 10)).grid(row=3, column=0, sticky=W, pady=3)
     Label(frame, text=f"Téléphone: {row[6]}", font=('Arial', 10)).grid(row=4, column=0, sticky=W, pady=3)
-    Label(frame, text=f"Date d'inscription: {row[5]}", font=('Arial', 10)).grid(row=5, column=0, sticky=W, pady=3)
+    Label(frame, text=f"Email: {row[7]}", font=('Arial', 10)).grid(row=5, column=0, sticky=W, pady=3)
+    Label(frame, text=f"Date d'inscription: {row[5]}", font=('Arial', 10)).grid(row=6, column=0, sticky=W, pady=3)
     
     # Payment status indicator
     payment_frame = Frame(frame)
-    payment_frame.grid(row=6, column=0, sticky=W, pady=3)
+    payment_frame.grid(row=7, column=0, sticky=W, pady=3)
     Label(payment_frame, text="Payé: ", font=('Arial', 10)).pack(side=LEFT)
     
     if row[4]:  # payee status
@@ -78,21 +79,22 @@ def show_membre_details(tree_widget):
     
     # Action buttons
     btn_frame = Frame(frame)
-    btn_frame.grid(row=7, column=0, pady=15, sticky=W)
+    btn_frame.grid(row=8, column=0, pady=15, sticky=W)
     
+    email_addr = row[7] if row[7] else ""
     Button(btn_frame, text="📧 Email", padx=10, pady=5,
-           command=lambda: webbrowser.open("mailto:")).pack(side=LEFT, padx=5)
+           command=lambda: webbrowser.open(f"mailto:{email_addr}")).pack(side=LEFT, padx=5)
     Button(btn_frame, text="📞 Appeler", padx=10, pady=5,
            command=lambda: webbrowser.open(f"tel:{row[6]}")).pack(side=LEFT, padx=5)
     
     # View activities button
     Button(frame, text="📋 Voir Activités Participées", padx=10, pady=5,
            command=lambda: show_membre_activities_window(membre_id, f"{row[1]} {row[2]}")
-          ).grid(row=8, column=0, pady=5, sticky=W)
+          ).grid(row=9, column=0, pady=5, sticky=W)
     
     # Activity count
     count = get_participation_count(membre_id)
-    Label(frame, text=f"Nombre d'activités: {count}", font=('Arial', 9), fg='gray').grid(row=9, column=0, sticky=W)
+    Label(frame, text=f"Nombre d'activités: {count}", font=('Arial', 9), fg='gray').grid(row=10, column=0, sticky=W)
 
 
 def show_activite_details(tree_widget):

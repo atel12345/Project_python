@@ -29,16 +29,16 @@ COLUMN_WIDTHS = {
 MEMBRE_COLUMNS = ('ID', 'Nom', 'Prenom', 'Role')
 MEMBRE_SORT_OPTIONS = {
     'ID': 'id_membre',
-    'Nom': 'nom',
-    'Prenom': 'prenom',
-    'Role': 'role'
+    'Nom': 'nom_mbr',
+    'Prenom': 'prenom_mbr',
+    'Role': 'role_mbr'
 }
 
 # Activite columns
 ACTIVITE_COLUMNS = ('ID', 'Nom', 'Type', 'Duree (min)')
 ACTIVITE_SORT_OPTIONS = {
     'ID': 'id_activite',
-    'Nom': 'nom',
-    'Type': 'type',
-    'Duree': 'duree'
+    'Nom': 'nom_act',
+    'Type': 'type_act',
+    'Duree (min)': 'duree_act'
 }

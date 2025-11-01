@@ -24,10 +24,11 @@ def add_membre(refresh_callback=None):
                 entry_role.get(),
                 entry_payee.get().strip().lower() in ("oui","yes","1","true"),
                 entry_date.get(),
-                entry_tel.get()
+                entry_tel.get(),
+                entry_email.get()
             )
             mem.ajouter_membre(mem)
-            messagebox.showinfo("Succès", f"Membre {mem.nom} ajouté !")
+            messagebox.showinfo("Succès", f"Membre {mem.nom_mbr} ajouté !")
             top.destroy()
             if refresh_callback:
                 refresh_callback()
@@ -52,7 +53,9 @@ def add_membre(refresh_callback=None):
     entry_date = Entry(top); entry_date.grid(row=5,column=1)
     Label(top, text="Tel").grid(row=6,column=0)
     entry_tel = Entry(top); entry_tel.grid(row=6,column=1)
-    Button(top,text="Ajouter", command=save).grid(row=7,column=0,columnspan=2,pady=10)
+    Label(top, text="Email").grid(row=7,column=0)
+    entry_email = Entry(top); entry_email.grid(row=7,column=1)
+    Button(top,text="Ajouter", command=save).grid(row=8,column=0,columnspan=2,pady=10)
 
 def edit_membre(refresh_callback=None):
     def save():
@@ -64,10 +67,11 @@ def edit_membre(refresh_callback=None):
                 entry_role.get(),
                 entry_payee.get().strip().lower() in ("oui","yes","1","true"),
                 entry_date.get(),
-                entry_tel.get()
+                entry_tel.get(),
+                entry_email.get()
             )
             mem.modifier_membre(mem)
-            messagebox.showinfo("Succès", f"Membre {mem.nom} modifié !")
+            messagebox.showinfo("Succès", f"Membre {mem.nom_mbr} modifié !")
             top.destroy()
             if refresh_callback:
                 refresh_callback()
@@ -90,13 +94,15 @@ def edit_membre(refresh_callback=None):
     entry_date = Entry(top); entry_date.grid(row=5,column=1)
     Label(top, text="Tel").grid(row=6,column=0)
     entry_tel = Entry(top); entry_tel.grid(row=6,column=1)
-    Button(top,text="Modifier", command=save).grid(row=7,column=0,columnspan=2,pady=10)
+    Label(top, text="Email").grid(row=7,column=0)
+    entry_email = Entry(top); entry_email.grid(row=7,column=1)
+    Button(top,text="Modifier", command=save).grid(row=8,column=0,columnspan=2,pady=10)
 
 def delete_membre(refresh_callback=None):
     def remove():
         try:
             id_m = int(entry_id.get())
-            Membre(id_m,"","","",False,"","").supprimer_membre(id_m)
+            Membre(id_m,"","","",False,"","","").supprimer_membre(id_m)
             messagebox.showinfo("Succès", f"Membre {id_m} supprimé !")
             top.destroy()
             if refresh_callback:
@@ -121,7 +127,7 @@ def add_activite(refresh_callback=None):
                 int(entry_duree.get())
             )
             act.ajouter_activite(act)
-            messagebox.showinfo("Succès", f"Activité {act.nom} ajoutée !")
+            messagebox.showinfo("Succès", f"Activité {act.nom_act} ajoutée !")
             top.destroy()
             if refresh_callback:
                 refresh_callback()
@@ -149,7 +155,7 @@ def edit_activite(refresh_callback=None):
                 int(entry_duree.get())
             )
             act.modifier_activite(act)
-            messagebox.showinfo("Succès", f"Activité {act.nom} modifiée !")
+            messagebox.showinfo("Succès", f"Activité {act.nom_act} modifiée !")
             top.destroy()
             if refresh_callback:
                 refresh_callback()
