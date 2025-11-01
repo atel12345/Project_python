@@ -12,7 +12,7 @@ class Membre:
 
     def ajouter_membre(self,membre):
         conn.execute('''
-            INSERT INTO membre (id_membre, nom, prenom, role, payee, date_inscription,tel) '
+            INSERT INTO membre (id_membre, nom, prenom, role, payee, date_inscription,tel)
             VALUES (?, ?, ?, ?, ?, ?, ?)''',
             (membre.id_membre, membre.nom, membre.prenom, membre.role, membre.payee, membre.date_inscription, membre.tel)
         )
@@ -24,10 +24,14 @@ class Membre:
             WHERE id_membre = ?''',
             (membre.nom, membre.prenom, membre.role, membre.payee, membre.date_inscription,
              membre.tel, membre.id_membre)
-
         )
         conn.commit()
 
+    def supprimer_membre(self,id_membre):
+        conn.execute('''
+            DELETE FROM membre WHERE id_membre = ?''',(id_membre,)
+        )
+        conn.commit()
 
 class Activite:
     def __init__(self, id_activite,nom,type,duree):
@@ -52,6 +56,11 @@ class Activite:
         )
         conn.commit()
 
+    def supprimer_activite(self,id_activite):
+        conn.execute('''
+            DELETE FROM activite WHERE id_activite = ?''',(id_activite,)
+        )
+        conn.commit()
 
 
 class Participation:
@@ -59,6 +68,21 @@ class Participation:
         self.id_activite = id_activite
         self.id_membre = id_membre
         self.date_participation = date_participation
+
+    def ajouter_participation(self, participation):
+        conn.execute('''
+            INSERT INTO participation (id_activite,id_membre,date_participation) 
+            VALUES (?, ?, ?)''',
+            (participation.id_activite,participation.id_membre,participation.date_participation)
+        )
+        conn.commit()
+
+    def supprimer_participation(self,id_activite,id_membre):
+        conn.execute('''
+            DELETE FROM participation WHERE id_activite = ? AND id_membre = ?''',
+            (id_activite,id_membre)
+        )
+        conn.commit()
 
 #connecting to DB and enabling foreign keys
 conn=sqlite3.connect('data.db')
