@@ -120,8 +120,8 @@ class ProjectClubApp:
         crud_frame = LabelFrame(self.root, text="Operations CRUD", padx=5, pady=5)
         crud_frame.grid(row=1, column=1, sticky=N+W+E+S, padx=(0, 10), pady=(0, 10))
         
-        # Setup CRUD interface (to be implemented by binome)
-        setup_crud_frame(crud_frame)
+        # Setup CRUD interface with refresh callback
+        setup_crud_frame(crud_frame, refresh_callback=self.refresh_current_view)
     
     def create_kpi_section(self):
         """Create the bottom KPI statistics section"""
@@ -152,29 +152,37 @@ class ProjectClubApp:
     
     def load_membres(self, sort_by='id_membre'):
         """Load membres data into tree"""
-        # Clear tree
-        for item in self.tree_membre.get_children():
-            self.tree_membre.delete(item)
-        
-        # Fetch and display data
-        membres = get_membres(sort_by=sort_by)
-        for row in membres:
-            self.tree_membre.insert('', END, values=row)
-        
-        self.update_kpis()
+        try:
+            # Clear tree
+            for item in self.tree_membre.get_children():
+                self.tree_membre.delete(item)
+            
+            # Fetch and display data
+            membres = get_membres(sort_by=sort_by)
+            for row in membres:
+                self.tree_membre.insert('', END, values=row)
+            
+            self.update_kpis()
+        except Exception as e:
+            from tkinter import messagebox
+            messagebox.showerror("Erreur", f"Erreur de chargement membres: {str(e)}")
     
     def load_activites(self, sort_by='id_activite'):
         """Load activites data into tree"""
-        # Clear tree
-        for item in self.tree_activite.get_children():
-            self.tree_activite.delete(item)
-        
-        # Fetch and display data
-        activites = get_activites(sort_by=sort_by)
-        for row in activites:
-            self.tree_activite.insert('', END, values=row)
-        
-        self.update_kpis()
+        try:
+            # Clear tree
+            for item in self.tree_activite.get_children():
+                self.tree_activite.delete(item)
+            
+            # Fetch and display data
+            activites = get_activites(sort_by=sort_by)
+            for row in activites:
+                self.tree_activite.insert('', END, values=row)
+            
+            self.update_kpis()
+        except Exception as e:
+            from tkinter import messagebox
+            messagebox.showerror("Erreur", f"Erreur de chargement activités: {str(e)}")
     
     def update_kpis(self):
         """Update KPI statistics"""
@@ -191,6 +199,10 @@ class ProjectClubApp:
         else:
             sort_by = ACTIVITE_SORT_OPTIONS.get(column, 'id_activite')
             self.load_activites(sort_by)
+    
+    def refresh_current_view(self):
+        """Refresh the currently displayed view (called after CRUD operations)"""
+        self.switch_view(self.current_view.get())
     
     def switch_view(self, view):
         """Switch between membre and activite views"""

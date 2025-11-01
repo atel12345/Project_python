@@ -6,17 +6,17 @@ This file provides a GUI for adding, editing, deleting members, activities, and 
 from tkinter import *
 from tkinter import messagebox
 from model import Membre, Activite, Participation, is_table_empty
-import sqlite3
-
-# Use the connection from model.py if needed
-conn = sqlite3.connect('data.db')
-conn.execute("PRAGMA foreign_keys = ON;")
 
 # ------------------- MEMBRE FUNCTIONS -------------------
 
-def add_membre():
+def add_membre(refresh_callback=None):
     def save():
         try:
+            # Validation
+            if not entry_id.get() or not entry_nom.get():
+                messagebox.showwarning("Validation", "ID et Nom sont requis")
+                return
+            
             mem = Membre(
                 int(entry_id.get()),
                 entry_nom.get(),
@@ -29,6 +29,10 @@ def add_membre():
             mem.ajouter_membre(mem)
             messagebox.showinfo("Succès", f"Membre {mem.nom} ajouté !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
+        except ValueError as e:
+            messagebox.showerror("Erreur", "ID doit être un nombre")
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
 
@@ -50,7 +54,7 @@ def add_membre():
     entry_tel = Entry(top); entry_tel.grid(row=6,column=1)
     Button(top,text="Ajouter", command=save).grid(row=7,column=0,columnspan=2,pady=10)
 
-def edit_membre():
+def edit_membre(refresh_callback=None):
     def save():
         try:
             mem = Membre(
@@ -65,6 +69,8 @@ def edit_membre():
             mem.modifier_membre(mem)
             messagebox.showinfo("Succès", f"Membre {mem.nom} modifié !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
 
@@ -86,13 +92,15 @@ def edit_membre():
     entry_tel = Entry(top); entry_tel.grid(row=6,column=1)
     Button(top,text="Modifier", command=save).grid(row=7,column=0,columnspan=2,pady=10)
 
-def delete_membre():
+def delete_membre(refresh_callback=None):
     def remove():
         try:
             id_m = int(entry_id.get())
             Membre(id_m,"","","",False,"","").supprimer_membre(id_m)
             messagebox.showinfo("Succès", f"Membre {id_m} supprimé !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
     top = Toplevel()
@@ -103,7 +111,7 @@ def delete_membre():
 
 # ------------------- ACTIVITE FUNCTIONS -------------------
 
-def add_activite():
+def add_activite(refresh_callback=None):
     def save():
         try:
             act = Activite(
@@ -115,6 +123,8 @@ def add_activite():
             act.ajouter_activite(act)
             messagebox.showinfo("Succès", f"Activité {act.nom} ajoutée !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
     top = Toplevel()
@@ -129,7 +139,7 @@ def add_activite():
     entry_duree = Entry(top); entry_duree.grid(row=3,column=1)
     Button(top,text="Ajouter", command=save).grid(row=4,column=0,columnspan=2,pady=10)
 
-def edit_activite():
+def edit_activite(refresh_callback=None):
     def save():
         try:
             act = Activite(
@@ -141,6 +151,8 @@ def edit_activite():
             act.modifier_activite(act)
             messagebox.showinfo("Succès", f"Activité {act.nom} modifiée !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
     top = Toplevel()
@@ -155,13 +167,15 @@ def edit_activite():
     entry_duree = Entry(top); entry_duree.grid(row=3,column=1)
     Button(top,text="Modifier", command=save).grid(row=4,column=0,columnspan=2,pady=10)
 
-def delete_activite():
+def delete_activite(refresh_callback=None):
     def remove():
         try:
             id_a = int(entry_id.get())
             Activite(id_a,"","",0).supprimer_activite(id_a)
             messagebox.showinfo("Succès", f"Activité {id_a} supprimée !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
     top = Toplevel()
@@ -172,7 +186,7 @@ def delete_activite():
 
 # ------------------- PARTICIPATION FUNCTIONS -------------------
 
-def add_participation():
+def add_participation(refresh_callback=None):
     """Assign an activity to a member"""
     top = Toplevel()
     top.title("Ajouter Participation")
@@ -200,6 +214,8 @@ def add_participation():
             par.ajouter_participation(par)
             messagebox.showinfo("Succès", "Participation ajoutée !")
             top.destroy()
+            if refresh_callback:
+                refresh_callback()
         except Exception as e:
             messagebox.showerror("Erreur", str(e))
 
@@ -207,20 +223,20 @@ def add_participation():
 
 # ------------------- CRUD FRAME -------------------
 
-def setup_crud_frame(parent_frame):
+def setup_crud_frame(parent_frame, refresh_callback=None):
     """Add all CRUD buttons and search bars to the frame with gray-out logic"""
 
     # --- Membres ---
     Label(parent_frame, text="--- Membres ---", fg="blue").pack(pady=5)
-    Button(parent_frame, text="Ajouter Membre", command=add_membre).pack(pady=2)
+    Button(parent_frame, text="Ajouter Membre", command=lambda: add_membre(refresh_callback)).pack(pady=2)
 
     if is_table_empty("membre"):
         state_m = "disabled"; fg_m = "gray"
     else:
         state_m = "normal"; fg_m = "black"
 
-    Button(parent_frame, text="Modifier Membre", command=edit_membre, state=state_m, fg=fg_m).pack(pady=2)
-    Button(parent_frame, text="Supprimer Membre", command=delete_membre, state=state_m, fg=fg_m).pack(pady=2)
+    Button(parent_frame, text="Modifier Membre", command=lambda: edit_membre(refresh_callback), state=state_m, fg=fg_m).pack(pady=2)
+    Button(parent_frame, text="Supprimer Membre", command=lambda: delete_membre(refresh_callback), state=state_m, fg=fg_m).pack(pady=2)
 
     frame_search_m = Frame(parent_frame)
     frame_search_m.pack(pady=3)
@@ -236,15 +252,15 @@ def setup_crud_frame(parent_frame):
 
     # --- Activités ---
     Label(parent_frame, text="--- Activités ---", fg="green").pack(pady=5)
-    Button(parent_frame, text="Ajouter Activité", command=add_activite).pack(pady=2)
+    Button(parent_frame, text="Ajouter Activité", command=lambda: add_activite(refresh_callback)).pack(pady=2)
 
     if is_table_empty("activite"):
         state_a = "disabled"; fg_a = "gray"
     else:
         state_a = "normal"; fg_a = "black"
 
-    Button(parent_frame, text="Modifier Activité", command=edit_activite, state=state_a, fg=fg_a).pack(pady=2)
-    Button(parent_frame, text="Supprimer Activité", command=delete_activite, state=state_a, fg=fg_a).pack(pady=2)
+    Button(parent_frame, text="Modifier Activité", command=lambda: edit_activite(refresh_callback), state=state_a, fg=fg_a).pack(pady=2)
+    Button(parent_frame, text="Supprimer Activité", command=lambda: delete_activite(refresh_callback), state=state_a, fg=fg_a).pack(pady=2)
 
     frame_search_a = Frame(parent_frame)
     frame_search_a.pack(pady=3)
@@ -260,4 +276,4 @@ def setup_crud_frame(parent_frame):
 
     # --- Participations ---
     Label(parent_frame, text="--- Participations ---", fg="purple").pack(pady=5)
-    Button(parent_frame, text="Ajouter Participation", command=add_participation).pack(pady=2)
+    Button(parent_frame, text="Ajouter Participation", command=lambda: add_participation(refresh_callback)).pack(pady=2)
