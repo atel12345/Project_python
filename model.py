@@ -66,14 +66,13 @@ class Paiement:
         )
         conn.commit()
 
-    def modifier_membre(self,membre):
+    def modifier_paiement(self,paiement):
         conn.execute(
-            'UPDATE paiement SET nom = ?, prenom = ?, role = ?, payee = ?, date_inscription = ?, tel = ? WHERE id_membre = ?',
-            (membre.nom, membre.prenom, membre.role, membre.payee, membre.date_inscription,
-             membre.tel, membre.id_membre)
-
+            'UPDATE paiement SET montant = ?, date_paiement = ? WHERE id_paiement = ?',
+            (paiement.montant, paiement.date_paiement, paiement.id_paiement)
         )
         conn.commit()
+
 #connecting to DB and enabling foreign keys
 conn=sqlite3.connect('data.db')
 conn.execute("PRAGMA foreign_keys = ON;")
