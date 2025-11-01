@@ -11,15 +11,17 @@ class Membre:
         self.tel = tel
 
     def ajouter_membre(self,membre):
-        conn.execute(
-            'INSERT INTO membre (id_membre, nom, prenom, role, payee, date_inscription,tel) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        conn.execute('''
+            INSERT INTO membre (id_membre, nom, prenom, role, payee, date_inscription,tel) '
+            VALUES (?, ?, ?, ?, ?, ?, ?)''',
             (membre.id_membre, membre.nom, membre.prenom, membre.role, membre.payee, membre.date_inscription, membre.tel)
         )
         conn.commit()
 
     def modifier_membre(self,membre):
-        conn.execute(
-            'UPDATE membre SET nom = ?, prenom = ?, role = ?, payee = ?, date_inscription = ?, tel = ? WHERE id_membre = ?',
+        conn.execute('''
+            UPDATE membre SET nom = ?, prenom = ?, role = ?, payee = ?, date_inscription = ?, tel = ? 
+            WHERE id_membre = ?''',
             (membre.nom, membre.prenom, membre.role, membre.payee, membre.date_inscription,
              membre.tel, membre.id_membre)
 
@@ -28,24 +30,25 @@ class Membre:
 
 
 class Activite:
-    def __init__(self, id_activite,nom,type,date,duree):
+    def __init__(self, id_activite,nom,type,duree):
         self.nom = nom
         self.type = type
         self.duree = duree
-        self.date = date
         self.id_activite = id_activite
 
     def ajouter_activite(self, activite):
-        conn.execute(
-            'INSERT INTO activite (id_activite,nom,type,date,duree) VALUES (?, ?, ?, ?, ?)',
-            (activite.id_activite,activite.nom,activite.type,activite.date,activite.duree)
+        conn.execute('''
+            INSERT INTO activite (id_activite,nom,type,duree) 
+            VALUES (?, ?, ?, ?)''',
+            (activite.id_activite,activite.nom,activite.type,activite.duree)
         )
         conn.commit()
 
     def modifier_activite(self,activite):
-        conn.execute(
-            'UPDATE activite SET nom = ?, type = ?, date = ?, duree = ? WHERE id_activite = ?',
-            (activite.nom,activite.type,activite.date,activite.duree,activite.id_activite)
+        conn.execute('''
+            UPDATE activite SET nom = ?, type = ?, duree = ? 
+            WHERE id_activite = ?''',
+            (activite.nom,activite.type,activite.duree,activite.id_activite)
 
         )
         conn.commit()
@@ -63,12 +66,15 @@ conn=sqlite3.connect('data.db')
 conn.execute("PRAGMA foreign_keys = ON;")
 
 #creating tables if they don't exist
-conn.execute(
-    'CREATE TABLE IF NOT EXISTS membre(id_membre integer primary key,nom text, prenom text,role text,payee boolean,date_inscription date,tel text)'
-)
-conn.execute(
-    'CREATE TABLE IF NOT EXISTS activite(id_activite integer primary key,nom text,type text,date date,duree integer)'
-)
+conn.execute('''
+    CREATE TABLE IF NOT EXISTS membre
+    (id_membre integer primary key,
+    nom text, prenom text,role text,payee boolean,date_inscription date,tel text)
+''')
+conn.execute('''
+    CREATE TABLE IF NOT EXISTS activite(
+    id_activite integer primary key,nom text,type text,duree integer)
+''')
 conn.execute('''
     CREATE TABLE IF NOT EXISTS participation(
     id_activite integer , id_membre integer,date_participation date, 
