@@ -33,6 +33,18 @@ class Membre:
         )
         conn.commit()
 
+    def recherche_membre(self,id_membre):
+        res =(
+        conn.execute('''
+        SELECT id_membre, nom, prenom, role, payee, date_inscription,tel
+        FROM membre WHERE id_membre = ?''',(id_membre,)
+        ))
+        row = res.fetchone()
+        if row:
+            return row
+        else:
+            return None
+
 class Activite:
     def __init__(self, id_activite,nom,type,duree):
         self.nom = nom
@@ -63,6 +75,17 @@ class Activite:
         )
         conn.commit()
 
+    def recherche_activite(self,id_activite):
+        res =(
+        conn.execute('''
+        SELECT id_activite,nom,type,duree
+        FROM activite WHERE id_activite = ?''',(id_activite,)
+        ))
+        row = res.fetchone()
+        if row:
+            return row
+        else:
+            return None
 
 class Participation:
     def __init__(self, id_activite, id_membre, date_participation):
