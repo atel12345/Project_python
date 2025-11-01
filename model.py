@@ -65,7 +65,6 @@ class Activite:
             UPDATE activite SET nom = ?, type = ?, duree = ? 
             WHERE id_activite = ?''',
             (activite.nom,activite.type,activite.duree,activite.id_activite)
-
         )
         conn.commit()
 
@@ -130,6 +129,7 @@ conn.execute('''
     foreign key (id_activite) references activite(id_activite))
 ''')
 
+
 #adding member infos to table membre
 # print("\nSaisis info membre :")
 # id_m = int(input("id_membre: "))
@@ -160,7 +160,3 @@ conn.execute('''
 # date_paiement = input("date_paiement (JJ/MM/AAAA): ")
 # pai=Paiement(id_p,id_m,montant,date_paiement)#id_m : id_membre as foreign key referencing id_membre in table membre
 # pai.ajouter_paiement(pai)
-#commiting changes
-mem=Membre('1','1','1','1','1','1','1')
-mem.modifier_membre(mem)
-conn.commit()
