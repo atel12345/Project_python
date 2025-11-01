@@ -1,7 +1,8 @@
 import sqlite3
-from model import Membre, Activite
-
-mem=Membre('1','5','50','5','5','5','5')
-mem.modifier_membre(mem)
-act=Activite('1','2','2','2')
-act.ajouter_activite(act)
+import tkinter as tk
+from model import Membre, Activite, Participation
+window=Tk()
+window.title('information')
+window.geometry("300x300")
+window.minsize(100,100)
+window.iconbitmap("icone.png")
