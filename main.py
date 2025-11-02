@@ -1,16 +1,3 @@
-"""
-Main Application File - Project Club Management System
-Entry point for the application
-
-This is a school project organized for binome collaboration:
-- main.py: Main application and UI layout (current file)
-- database.py: All database operations
-- ui_components.py: Reusable UI components and popups
-- crud_operations.py: CRUD operations (for your binome to implement)
-- config.py: Configuration and constants
-- model.py: Database models and table creation
-"""
-
 from tkinter import *
 from tkinter import ttk
 from config import *
@@ -20,18 +7,15 @@ from crud_operations import setup_crud_frame
 
 
 class ProjectClubApp:
-    """Main application class"""
-    
     def __init__(self, root):
         self.root = root
         self.root.title(WINDOW_TITLE)
         self.root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
         
-        # Set window icon
         try:
             self.root.iconbitmap('icon.ico')
-        except Exception as e:
-            print(f"Could not load icon: {e}")
+        except:
+            pass
         
         # Variables
         self.current_view = StringVar(value="membre")
@@ -157,38 +141,24 @@ class ProjectClubApp:
         Label(display, textvariable=self.kpi_non_payers, font=('Arial', 10), fg='red').pack(side=LEFT, padx=5)
     
     def load_membres(self, sort_by='id_membre'):
-        """Load membres data into tree"""
-        try:
-            # Clear tree
-            for item in self.tree_membre.get_children():
-                self.tree_membre.delete(item)
-            
-            # Fetch and display data
-            membres = get_membres(sort_by=sort_by)
-            for row in membres:
-                self.tree_membre.insert('', END, values=row)
-            
-            self.update_kpis()
-        except Exception as e:
-            from tkinter import messagebox
-            messagebox.showerror("Erreur", f"Erreur de chargement membres: {str(e)}")
+        for item in self.tree_membre.get_children():
+            self.tree_membre.delete(item)
+        
+        membres = get_membres(sort_by=sort_by)
+        for row in membres:
+            self.tree_membre.insert('', END, values=row)
+        
+        self.update_kpis()
     
     def load_activites(self, sort_by='id_activite'):
-        """Load activites data into tree"""
-        try:
-            # Clear tree
-            for item in self.tree_activite.get_children():
-                self.tree_activite.delete(item)
-            
-            # Fetch and display data
-            activites = get_activites(sort_by=sort_by)
-            for row in activites:
-                self.tree_activite.insert('', END, values=row)
-            
-            self.update_kpis()
-        except Exception as e:
-            from tkinter import messagebox
-            messagebox.showerror("Erreur", f"Erreur de chargement activités: {str(e)}")
+        for item in self.tree_activite.get_children():
+            self.tree_activite.delete(item)
+        
+        activites = get_activites(sort_by=sort_by)
+        for row in activites:
+            self.tree_activite.insert('', END, values=row)
+        
+        self.update_kpis()
     
     def update_kpis(self):
         """Update KPI statistics"""

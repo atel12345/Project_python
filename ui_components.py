@@ -1,8 +1,3 @@
-"""
-UI Components for the Project Club application
-Contains reusable UI elements and popup windows
-"""
-
 from tkinter import *
 from tkinter import ttk
 import webbrowser
