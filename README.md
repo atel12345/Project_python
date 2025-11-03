@@ -123,7 +123,7 @@ sudo apt-get install python3-tk
 ## 🐛 Problèmes Connus
 
 - Pas de validation pour les IDs dupliqués
-- Format de date non vérifié (utiliser YYYY-MM-DD)
+- Format de date non vérifié (utiliser DD-MM-YYYY)
 - Fonction recherche affiche messagebox au lieu de filtrer
 
 ## 📝 Améliorations Futures
