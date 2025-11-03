@@ -2,6 +2,10 @@
 
 Application de bureau pour gérer les membres, activités et participations d'un club.
 
+## 🎥 Démonstration Vidéo
+
+https://github.com/user-attachments/assets/1872248e-9095-4f51-8bcd-b5d34c113392
+
 ## 🚀 Installation
 
 ```bash
