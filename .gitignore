@@ -12,6 +12,14 @@ __pycache__/
 *$py.class
 *.so
 
+# Tkinter lessons (learning materials)
+tkinter_lessons/
+
+# Training/practice files
+train.py
+simple_club.py
+populate_mock_data.py
+
 # Distribution / packaging
 .Python
 build/

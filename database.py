@@ -6,8 +6,8 @@ def get_membres(search_text="", sort_by="id_membre"):
     query = f'SELECT id_membre, nom_mbr, prenom_mbr, role_mbr FROM membre ORDER BY {sort_by}'
     cursor = conn.execute(query)
     results = cursor.fetchall()
-    conn.close()
-    return results
+    conn.close()  
+    return results #tuple
 
 
 def get_activites(search_text="", sort_by="id_activite"):
@@ -67,4 +67,4 @@ def get_kpi_data():
     total_activites = conn.execute('SELECT COUNT(*) FROM activite').fetchone()[0]
     non_payers = conn.execute('SELECT COUNT(*) FROM membre WHERE payee_mbr = 0').fetchone()[0]
     conn.close()
-    return total_membres, total_activites, non_payers
+    return total_membres, total_activites, non_payers #tuple

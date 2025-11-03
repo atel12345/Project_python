@@ -120,3 +120,4 @@ def is_table_empty(table_name):
     cursor = conn.execute(f"SELECT COUNT(*) FROM {table_name}")
     count = cursor.fetchone()[0]
     return count == 0
+

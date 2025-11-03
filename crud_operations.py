@@ -238,3 +238,4 @@ def setup_crud_frame(parent_frame, refresh_callback=None):
     # Participations
     Label(parent_frame, text="--- Participations ---", fg="purple").pack(pady=5)
     Button(parent_frame, text="Ajouter Participation", command=lambda: add_participation(refresh_callback)).pack(pady=2)
+
