@@ -62,6 +62,7 @@ Cliquer sur n'importe quel en-tête de colonne (ID, Nom, Prenom, Role) pour trie
 ## 🗄️ Schéma de Base de Données
 
 ### Table `membre`
+
 - `id_membre` : Identifiant unique
 - `nom_mbr` : Nom de famille
 - `prenom_mbr` : Prénom
@@ -72,12 +73,14 @@ Cliquer sur n'importe quel en-tête de colonne (ID, Nom, Prenom, Role) pour trie
 - `email_mbr` : Email
 
 ### Table `activite`
+
 - `id_activite` : Identifiant unique
 - `nom_act` : Nom de l'activité
 - `type_act` : Type (sport, culture...)
 - `duree_act` : Durée en minutes
 
 ### Table `participation`
+
 - `id_membre` : Référence au membre
 - `id_activite` : Référence à l'activité
 - `date` : Date de participation
@@ -100,6 +103,7 @@ DATABASE_NAME = 'data.db'         # Nom de la base de données
 **Base de données verrouillée:** Fermer toutes les instances de l'application
 
 **Tkinter non trouvé (Linux):**
+
 ```bash
 sudo apt-get install python3-tk
 ```
